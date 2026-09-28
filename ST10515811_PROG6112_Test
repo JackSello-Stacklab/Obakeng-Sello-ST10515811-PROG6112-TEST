@@ -1,0 +1,63 @@
+```java
+import java.util.Scanner;
+
+// TODO: fix class name convention later, should probably be Main not main but im unsure
+public class main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in); // called it scan instead of input, whatever works
+        
+        String[] cities = {"Cape Town", "Port Elizabeth", "Pretoria"};
+        String[] consoles = {"PS5", "Xbox", "Nintendo Switch"};
+        
+        // rows = the cities, cols = the consoles. keeping this in mind so I dont get confused later
+        int[][] sales = new int[cities.length][consoles.length];
+        
+        // keeping city totals separate per the assignment requirements
+        int[] cityTotals = new int[3]; // hardcoding length here is fine since we know it's 3, but cities.length is safer for me 
+
+        // getting the input from user... hope they type numbers correctly
+        for (int i = 0; i < cities.length; i++) {
+            System.out.println("Enter sales for " + cities[i] + ":"); // I added this so the user actually knows WHICH city they are entering data for
+            for (int j = 0; j < consoles.length; j++) {
+                System.out.print(" -> " + consoles[j] + ": ");
+                sales[i][j] = scan.nextInt();
+                
+                // add to running total for this city
+                cityTotals[i] = cityTotals[i] + sales[i][j]; // writing it out longhand instead of += just cause
+            }
+        }
+
+        // let's figure out who sold the most
+        int topCityIndex = 0; // assume first one is highest to start with
+        
+        System.out.println("\nNumber 1 Electronics - Yearly Sales Report");
+        
+         
+        
+        System.out.printf("%-15s", "City");
+        for (int c = 0; c < consoles.length; c++) {
+            System.out.printf("%-15s", consoles[c]);
+        }
+        System.out.printf("%-15s%n", "Total Sales");
+
+        // print the actual table rows
+        for (int i = 0; i < cities.length; i++) {
+            System.out.printf("%-15s", cities[i]);
+            for (int j = 0; j < consoles.length; j++) {
+                System.out.printf("%-15d", sales[i][j]);
+            }
+            System.out.printf("%-15d%n", cityTotals[i]);
+
+            // check highest sales inside the loop to save a loop, even if slightly less clean
+            if (cityTotals[i] > cityTotals[topCityIndex]) {
+                topCityIndex = i;
+            }
+        }
+
+        // print out the winner between the cities
+        System.out.println(" The Winner is: " + cities[topCityIndex]);
+        System.out.println(cities[topCityIndex] + " had the highest total sales, with " + cityTotals[topCityIndex] + " consoles sold.");
+        
+        scan.close();
+    }
+}
